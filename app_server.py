@@ -1,7 +1,8 @@
 from modules.profile import Profile
 import Pyro4
 from typing import List, Dict
-
+import json
+import jsonify
 
 """
 in terminal 01:
@@ -40,20 +41,49 @@ class Server:
 	def hello(msg: str) -> str:		
 		print('client message: {}'.format(msg))
 		return 'Message processed sucessfully by the server application'
+	
+	@staticmethod
+	def call_profile_objects() -> Profile:
+		return p1
 
 	# 01
-	@staticmethod
-	def list_profiles_of_a_course(course: str) -> list:
+	@ staticmethod	
+	def list_profiles_of_a_course(course: str) -> Dict:
 		"""
 		List all profiles of a course
 		"""
 
-		db_li_profiles_of_a_course = []
+		di_profiles_of_a_course = {}
 		for profile in db_li_profiles:			
 			if profile.academic_education == course:
-				db_li_profiles_of_a_course.append(profile)
+				email = profile.email
+				di_profiles_of_a_course[email] = profile.__dict__ # [CLIENT] TypeError: Object of type bytes is not JSON serializable
+				"""
+				So, i remove the p1, p2 and p3 from deamon and not register too
+				I just share the server object
+				"""
+		
+		# return str(db_li_profiles_of_a_course).encode(encoding='utf-8', errors='strict')
+		# return jsom.dumps(di_profiles_of_a_course.__dict__) # working, but [CLIENT] TypeError: Object of type bytes is not JSON serializable
+		# return jsonify(db_li_profiles_of_a_course) # TypeError: Object of type Daemon is not JSON serializable
 
-		return db_li_profiles_of_a_course
+		# return "['p1', 'p2']" # FALSE
+		# return "profiles of a course" # TRUE
+
+		# TRUE
+		# string = 'profiles'
+		# return f"[{string}]"
+
+		# TRUE
+		# profs = {'a': '0'}
+		# print(profs)
+		# print(type(profs))
+		# return profs
+
+		# print(di_profiles_of_a_course)
+		# print(type(di_profiles_of_a_course))
+		return di_profiles_of_a_course
+
 
 	# 02
 	@staticmethod
@@ -102,6 +132,7 @@ class Server:
 					return profile.experiences
 
 	# 05
+	@staticmethod
 	def list_all_informations_of_all_profiles(self) -> Dict:
 		"""Get all informations of all profiles
 		:db_li_profiles: List[Profiles]
@@ -154,6 +185,14 @@ def startServer():
     # print the uri so we can use it in the client later
     print("Ready. Object uri =", uri)
     
+    # # creating uri for each profile objects
+    # uri_1, uri_2, uri_3 = daemon.register(p1), daemon.register(p2), daemon.register(p3)
+
+    # # resgistering each uri profile object (IT CAN BE DISCARTED)
+    # ns.register("p1", uri_1)
+    # ns.register("p2", uri_2)
+    # ns.register("p3", uri_3)
+
     # start the event loop of the server to wait for calls
     daemon.requestLoop()    
 
@@ -163,13 +202,15 @@ if __name__ == '__main__':
 
 # -------------------------------------------------
 
-# testing (client code)
+# # testing (client code)
 # server = Server() # don't dothis in client
 
-# # 01
+# 01
 # profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-# for profile in profiles_engcomp:
-# 	print(profile.__dict__)
+# print(profiles_engcomp['bruno@email.com']['first_name'])
+# for profile_key in profiles_engcomp:
+# 	print(profile_key)
+# 	print(profiles_engcomp[profile_key], '\n')
 
 # # 02
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
