@@ -3,6 +3,8 @@ import Pyro4
 from typing import List, Dict
 import json
 import jsonify
+from bottle import run
+
 
 """
 in terminal 01:
@@ -193,7 +195,7 @@ def start_server():
 
     # make a Pyro daemon to listen remote calls
     # all pyro objects are registered in one or more deamons
-    daemon = Pyro4.Daemon() 
+    daemon = Pyro4.Daemon(host='127.0.0.2', port=8080) # works on 127.0.0.2 ok, but need tests    
 
     # locate the name server running
     # usually there is just one name server running in your network
