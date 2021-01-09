@@ -14,10 +14,20 @@ python app_server.py
 
 
 db_li_profiles: List[Profile] = []
-p1 = Profile(first_name='Bruno', last_name='Conde Costa da Silva', photo='bruno.png', address='Ananindeua', email='bruno@email.com', academic_education='Engenharia da Computação', skills=['Python'], experiences=['Ciencia de dados', 'Desenvolvimento Web'])
+p1 = Profile(first_name='Bruno', last_name='Conde Costa da Silva', \
+	photo='bruno.png', address='Ananindeua', email='bruno@email.com', \
+	academic_education='Engenharia da Computação', skills=['Python'], \
+	experiences=['Ciencia de dados', 'Desenvolvimento Web'])
+
 # p1.photo.show()
-p2 = Profile(first_name='Renato', last_name='Sousa da Silva', photo='renato.png', address='Ananindeua', email='renato@email.com', academic_education='Engenharia da Computação', skills=['Cobol'], experiences=['infra'])
-p3 = Profile(first_name='Cassio', last_name='Sousa da Silva', photo='cassio.png', address='Bragança', email='cassio@email.com', academic_education='Educação Física', skills=['Cobol'], experiences=['xadrez na praça'])
+p2 = Profile(first_name='Renato', last_name='Sousa da Silva', \
+	photo='renato.png', address='Ananindeua', email='renato@email.com', \
+	academic_education='Engenharia da Computação', skills=['Cobol'], \
+	experiences=['infra'])
+p3 = Profile(first_name='Cassio', last_name='Sousa da Silva', \
+	photo='cassio.png', address='Bragança', email='cassio@email.com', \
+	academic_education='Educação Física', skills=['Cobol'], \
+	experiences=['xadrez na praça'])
 
 db_li_profiles.append(p1)
 db_li_profiles.append(p2)
@@ -31,6 +41,9 @@ db_li_profiles.append(p3)
 class Server:
 	"""
 	Class Server to create exposed server object
+	Tips: to debug this class, run the client code at this module
+	(app_server.py), 'cause here we have more details than just
+	the line of client code which raises an error
 	"""	
 	# db_li_profiles: List[Profile] = db_li_profiles
 
@@ -104,15 +117,19 @@ class Server:
 
 		return li_skills_of_profiles_of_a_address
 
-	# 03 - ok
+	# 03
 	@staticmethod
-	def put_new_experience_in_a_profile(profile: Profile, experience: str) -> None:
+	def put_new_experience_in_a_profile(email: str, experience: str) -> None:
 		"""
 		Addding a new experience in a registrated profile
-		:profile 	-> Profile
-		:experience -> str 
+		:email:	str -> id of the profile
+		:experience: str
 		"""
-		profile.experiences.append(experience)
+
+		for i, profile in enumerate(db_li_profiles):
+			if profile.email == email:
+				db_li_profiles[i].experiences.append(experience)
+
 
 	# 04 - ok
 	@staticmethod
@@ -197,13 +214,13 @@ def startServer():
     daemon.requestLoop()    
 
 
-# if __name__ == '__main__':
-# 	startServer()
+if __name__ == '__main__':
+	startServer()
 
 # -------------------------------------------------
 
 # # testing (client code)
-server = Server() # don't do this in client
+# server = Server() # don't do this in client
 
 # 01 - ok
 # profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
@@ -230,6 +247,6 @@ server = Server() # don't do this in client
 # print(di_all_informations)
 
 # # 06 - ok
-email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
-print(email_informations)
+# email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
+# print(email_informations)
 # email_informations['photo'].show()
