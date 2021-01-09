@@ -21,8 +21,7 @@ class Profile():
 
 		self.first_name: str = first_name
 		self.last_name: str = last_name
-		self.photo: str = Profile.serialize_image(photo=photo)
-		self.photo_bytes: bytes = None
+		self.photo: str = Profile.serialize_image(photo=photo)		
 		self.address: str = address
 		self.email: str = email
 		self.academic_education: str = academic_education
@@ -49,7 +48,7 @@ class Profile():
 		"""[CLIENT] Serialize/Encode image
 		:image_str: bytes
 		return: str
-		"""
+		"""		
 		image_64_encode: bytes = image_str.encode()
 		image_bytes: bytes = base64.decodebytes(image_64_encode)
 		return image_bytes
@@ -65,12 +64,11 @@ class Profile():
 			os.path.dirname(__file__).split()[:-1]), 'photos', photo)
 
 
-	def display_image(self, photo: bytes) -> None:
-		"""[CLIENT] Display image using PILLOW
-		photo: bytes
-		return: None
+	def display_photo(self) -> None:
+		"""[CLIENT] Display image using PILLOW		
+		return: None -> just displays the photo
 		"""
-
+		image_bytes: bytes = self.deserialize_image(image_str=self.photo)
 		with Image.open(io.BytesIO(image_bytes)) as image_pillow_client:
 			image_pillow_client.show()
 # p1 = Profile(first_name='Bruno', last_name='Conde Costa da Silva', photo='bruno.png', address='Ananindeua', email='bruno@email.com', academic_education='Engenharia da Computação', skills=['Python'], experiences=['Ciencia de dados', 'Desenvolvimento Web'])
