@@ -4,6 +4,7 @@ from typing import List, Dict
 import json
 import jsonify
 from bottle import run
+from modules.decorators import calc_time, calc_plot
 
 
 """
@@ -52,17 +53,17 @@ class Server:
 
 	def __init__(self): pass		
 	
-	@staticmethod	
+	@staticmethod
+	@calc_plot
+	@calc_time
 	def hello(msg: str) -> str:		
 		print('client message: {}'.format(msg))
 		return 'Message processed sucessfully by the server application'
-	
-	@staticmethod
-	def call_profile_objects() -> Profile:
-		return p1
 
-	# 01 - ok
-	@ staticmethod	
+	# 01 - ok	
+	@staticmethod
+	@calc_plot
+	@calc_time
 	def list_profiles_of_a_course(course: str) -> Dict:
 		"""
 		List all profiles of a course
@@ -223,31 +224,31 @@ def start_server():
     daemon.requestLoop()    
 
 
-if __name__ == '__main__':
-	start_server()
+# if __name__ == '__main__':
+# 	start_server()
 
 # -------------------------------------------------
 
 # # testing (client code)
-# server = Server() # don't do this in client
+server = Server() # don't do this in client
 
 # 01 - ok
-# profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-# print(profiles_engcomp['bruno@email.com']['first_name'])
+profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
+print(profiles_engcomp['bruno@email.com']['first_name'])
 # for profile_key in profiles_engcomp:
 # 	print(profile_key)
 # 	print(profiles_engcomp[profile_key], '\n')
 
-# # 02 - ok
+# # 02
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
 # print(skills_ananindeua)
 
-# # 03 - ok
+# # 03
 # print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
 # db_li_profiles[0].experiences.append('Engenharia de software')
 # print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
 
-# # 04 - ok
+# # 04
 # print('Getting experiences from profile which owns to {}'.format("cassio@email.com"))
 # print(server.list_experiences_from_email_profile(email='cassio@email.com'))
 
@@ -255,10 +256,10 @@ if __name__ == '__main__':
 # di_all_informations = server.list_all_informations_of_all_profiles()
 # print(di_all_informations)
 
-# # 06 - ok
+# # 06
 # email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
 # print(email_informations)
 # email_informations['photo'].show()
 
-# display photo - ok
+# display photo
 # server.display_photo(email='bruno@email.com')

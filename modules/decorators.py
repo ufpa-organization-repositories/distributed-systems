@@ -6,51 +6,50 @@ matplotlib.use('Qt5Agg')
 from matplotlib import pyplot as plt
 from matplotlib.font_manager import FontProperties
 
+DEBUG: bool = True
 
-def calc_time(debug: bool = True) -> float:
+
+def calc_time(function: Callable):
 	"""
 	Decorator Factory Design Pattern
 	Used to receive the argument debug
 	"""
+	
+		# """
+		# Decoration function: calculates the tima a function
+		# takes to execute
 
-	def decorator(function: Callable) -> Callable:
+		# Will be used to check the time took from each operation,
+		# from 01 to 06 ones
+		# """
+
+	def wrapper(*args, **kwargs) -> Any:
 		"""
-		Decoration function: calculates the tima a function
-		takes to execute
-
-		Will be used to check the time took from each operation,
-		from 01 to 06 ones
+		wraps/envolves the operation function,
+		calculating the time it takes to execute
+		return: Any -> Because can return both the result of the initial
+		function or other anything return type defined in this wrapper
+		(in this case, the time of execution of the function) 
 		"""
 
-		def wrapper(*args, **kwargs) -> Any:
-			"""
-			wraps/envolves the operation function,
-			calculating the time it takes to execute
-			return: Any -> Because can return both the result of the initial
-			function or other anything return type defined in this wrapper
-			(in this case, the time of execution of the function) 
-			"""
+		start_time = time()	
+		# result = function(*args, **kwargs) # the operation itself
+		result = function(*args, **kwargs) # the operation itself
+		end_time = time()
 
-			start_time = time()	
-			result = function(*args, **kwargs) # the operation itself
-			end_time = time()
+		exec_time = end_time - start_time		
+		if DEBUG == True:
+			print(f'time that the operation takes to execute: \n \
+				>>>{exec_time}')
 
-			exec_time = end_time - start_time
-			if debug == True:
-				print(f'time that the operation takes to execute: \n \
-					>>>{exec_time}')
-
-			# return result # the original return in function/operation
-			return exec_time # to use without @calc_plot
-			# return function()
+		# return result # the original return in function/operation
+		return [result, exec_time] # to use without @calc_plot
+		# return function()
 
 
-		return wrapper
+	return wrapper
 
-	# return decorator(function)
-	return decorator
-
-def calc_plot(function: Callable, debug: bool = False):	
+def calc_plot(function: Callable):	
 	"""
 	Decoration function: plots the graph of a time
 	that a function takes to execute
@@ -77,8 +76,10 @@ def calc_plot(function: Callable, debug: bool = False):
 		n_plots: int = 20
 		li_exec_time: list = []		
 		for i in range(n_plots):
-			result: float = function(*args, **kwargs) # returns the execution time
-			li_exec_time.append(result)
+			results: List = function(*args, **kwargs) # returns the execution time
+			result: Any = results[0]
+			exec_time: float = results[1]
+			li_exec_time.append(exec_time)
 
 		plt.figure(figsize=(12, 6))
 		plt.plot(range(1, n_plots + 1), li_exec_time)
@@ -100,13 +101,12 @@ def calc_plot(function: Callable, debug: bool = False):
 
 		plt.legend(bbox_to_anchor=(1, 1), loc='best', fancybox=True, framealpha=1)
 
-		if debug:		
-			print('ploting')
-			plt.show()
-		else:		
-			plt.savefig('time_operation.png')
+		print('ploting')
+		plt.show()
+		# plt.savefig('time_operation.png')
 		
-		return plt
+		# return plt
+		return result
 
 	return wrapper
 
@@ -116,14 +116,14 @@ def calc_plot(function: Callable, debug: bool = False):
 
 # """
 # @calc_plot(debug=True) # TypeError: calc_plot() missing 1 required positional argument: 'function'
-@calc_plot # test with and without this
-@calc_time(debug=True) # test with and without this
-def operation(sleep_time: int = 1) -> str:	
-	sleep(sleep_time)
-	return f'sleep for {sleep_time} seconds'
+# @calc_plot # test with and without this
+# @calc_time(debug=True) # test with and without this
+# def operation(sleep_time: int = 1) -> str:	
+# 	sleep(sleep_time)
+# 	return f'sleep for {sleep_time} seconds'
 
-if __name__ == '__main__':
-	result = operation(sleep_time=0.05)
+# if __name__ == '__main__':
+# 	result = operation(sleep_time=0.05)
 	# print(result)
 	# result.show()
 # """
