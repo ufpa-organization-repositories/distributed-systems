@@ -46,17 +46,17 @@ print(server.hello(message))
 # print(skills_ananindeua)
 
 # # 03
-bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
-	email='bruno@email.com')
-print('Bruno experiences before add experience: {}'.format(bruno_experiences))
+# bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
+# 	email='bruno@email.com')
+# print('Bruno experiences before add experience: {}'.format(bruno_experiences))
 
-server.put_new_experience_in_a_profile(\
-	email='bruno@email.com', \
-	experience='Engenharia de Software')
+# server.put_new_experience_in_a_profile(\
+# 	email='bruno@email.com', \
+# 	experience='Engenharia de Software')
 
-bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
-	email='bruno@email.com')
-print('Bruno experiences after add experience: {}'.format(bruno_experiences))
+# bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
+# 	email='bruno@email.com')
+# print('Bruno experiences after add experience: {}'.format(bruno_experiences))
 
 # # 04 - ok
 # print('Getting experiences from profile which owns to {}'.format("cassio@email.com"))
@@ -66,7 +66,9 @@ print('Bruno experiences after add experience: {}'.format(bruno_experiences))
 # di_all_informations = server.list_all_informations_of_all_profiles()
 # print(di_all_informations)
 
-# # 06 - ok
+# 06 - ok
 # email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
 # print(email_informations)
-# email_informations['photo'].show()
+
+# display photo
+server.display_photo(email='bruno@email.com')
