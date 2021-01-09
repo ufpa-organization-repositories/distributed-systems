@@ -1,6 +1,10 @@
 from typing import Callable, Any
 from time import time, sleep
-# from matplotlib import pyplot
+import PyQt5
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib import pyplot as plt
+from matplotlib.font_manager import FontProperties
 
 
 def calc_time(debug: bool = True) -> float:
@@ -46,26 +50,53 @@ def calc_time(debug: bool = True) -> float:
 	# return decorator(function)
 	return decorator
 
-def calc_plot(function: Callable, debug = 'debug printed'):	
+def calc_plot(function: Callable, debug: bool = True):	
 	"""
-	Decorator Factory Design Pattern to 
-	plot a time an operation takes to
-	execute
+	Decoration function: plots the graph of a time
+	that a function takes to execute
+
+	Will be used to plot the time took from each operation,
+	from 01 to 06 ones
 	"""
 
-	# def decorator(function: Callable) -> Callable:		
-	# 	"""
-	# 	Decoration function: plots the graph of a time
-	# 	that a function takes to execute
+	def wrapper(*args, **kwargs) -> Any:
+		"""
+		wraps/envolves the ...
 
-	# 	Will be used to plot the time took from each operation,
-	# 	from 01 to 06 ones
-	# 	"""
-	def wrapper(*args, **kwargs):
-		result: float = function(*args, **kwargs) # returns the execution time
-		print(result)
-		print(debug)
-		return 'ploted'
+		@calc_time
+		operation function
+
+		... retrieving the time it takes to execute
+		of the @calc_time decorator
+
+		return: Any -> Because can return both the result of the initial
+		function, the result of the @calc_time decorator,
+		or other anything return type defined in this wrapper
+		(in this case, None, beacuse only displays the graph) 
+		"""
+		n_plots: int = 100
+		li_exec_time: list = []		
+		for i in range(n_plots):
+			result: float = function(*args, **kwargs) # returns the execution time
+			li_exec_time.append(result)
+
+		plt.figure(figsize=(10, 6))
+		plt.plot(range(1, n_plots + 1), li_exec_time)
+		plt.axis(xmin=0, xmax=n_plots + 1)
+		plt.title('time per execution')
+		plt.ylabel('time (s)')
+		plt.xlabel('executions')
+
+		plt.scatter(range(1, n_plots + 1), li_exec_time, marker='.', label="Execution", color="black")
+		plt.legend(bbox_to_anchor=(1, 1), loc='best', fancybox=True, framealpha=1)
+
+		if debug:		
+			print('ploting')
+			plt.show()
+		else:		
+			plt.savefig('fig.png')
+		
+		return plt
 
 	return wrapper
 # -------------------------------------
@@ -78,6 +109,7 @@ def operation(sleep_time: int = 1) -> str:
 	return f'sleep for {sleep_time} seconds'
 
 if __name__ == '__main__':
-	result = operation(sleep_time=2)
-	print(result)
+	result = operation(sleep_time=0.05)
+	# print(result)
+	# result.show()
 	
