@@ -180,6 +180,13 @@ class Server:
 			print('Email {} not found:\n\n {}'.format(email, e))
 			raise e
 
+	# display profile photo
+	@classmethod
+	def display_photo(cls, email):
+		for i, profile in enumerate(db_li_profiles):
+			if profile.email == email:
+				profile.display_photo()
+
 
 def startServer():
     server = Server()
@@ -214,13 +221,13 @@ def startServer():
     daemon.requestLoop()    
 
 
-if __name__ == '__main__':
-	startServer()
+# if __name__ == '__main__':
+# 	startServer()
 
 # -------------------------------------------------
 
 # # testing (client code)
-# server = Server() # don't do this in client
+server = Server() # don't do this in client
 
 # 01 - ok
 # profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
@@ -250,3 +257,6 @@ if __name__ == '__main__':
 # email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
 # print(email_informations)
 # email_informations['photo'].show()
+
+# display photo - ok
+# server.display_photo(email='bruno@email.com')
