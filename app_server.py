@@ -46,7 +46,7 @@ class Server:
 	def call_profile_objects() -> Profile:
 		return p1
 
-	# 01
+	# 01 - ok
 	@ staticmethod	
 	def list_profiles_of_a_course(course: str) -> Dict:
 		"""
@@ -85,7 +85,7 @@ class Server:
 		return di_profiles_of_a_course
 
 
-	# 02
+	# 02 - ok
 	@staticmethod
 	def list_skills_of_profiles_of_a_city(address: str) -> list:
 		"""
@@ -104,7 +104,7 @@ class Server:
 
 		return li_skills_of_profiles_of_a_address
 
-	# 03
+	# 03 - ok
 	@staticmethod
 	def put_new_experience_in_a_profile(profile: Profile, experience: str) -> None:
 		"""
@@ -114,7 +114,7 @@ class Server:
 		"""
 		profile.experiences.append(experience)
 
-	# 04
+	# 04 - ok
 	@staticmethod
 	def list_experiences_from_email_profile(email: str):
 		"""
@@ -131,9 +131,9 @@ class Server:
 				if profile.email == email:
 					return profile.experiences
 
-	# 05
+	# 05 - ok
 	@staticmethod
-	def list_all_informations_of_all_profiles(self) -> Dict:
+	def list_all_informations_of_all_profiles() -> Dict:
 		"""Get all informations of all profiles
 		:db_li_profiles: List[Profiles]
 		return: Dict -> Dictionary of all profiles
@@ -150,7 +150,7 @@ class Server:
 
 		return di_all_profiles
 
-	# 06
+	# 06 - ok
 	def list_all_informations_of_profile_by_its_email(self, email: str) -> Dict:
 		"""Get all informations of a profile by passing its email
 		:db_li_profiles: List(Profile)
@@ -197,39 +197,39 @@ def startServer():
     daemon.requestLoop()    
 
 
-if __name__ == '__main__':
-	startServer()
+# if __name__ == '__main__':
+# 	startServer()
 
 # -------------------------------------------------
 
 # # testing (client code)
-# server = Server() # don't dothis in client
+server = Server() # don't do this in client
 
-# 01
+# 01 - ok
 # profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
 # print(profiles_engcomp['bruno@email.com']['first_name'])
 # for profile_key in profiles_engcomp:
 # 	print(profile_key)
 # 	print(profiles_engcomp[profile_key], '\n')
 
-# # 02
+# # 02 - ok
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
 # print(skills_ananindeua)
 
-# # 03
+# # 03 - ok
 # print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
 # db_li_profiles[0].experiences.append('Engenharia de software')
 # print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
 
-# # 04
+# # 04 - ok
 # print('Getting experiences from profile which owns to {}'.format("cassio@email.com"))
 # print(server.list_experiences_from_email_profile(email='cassio@email.com'))
 
-# # 05
+# # 05 - ok
 # di_all_informations = server.list_all_informations_of_all_profiles()
 # print(di_all_informations)
 
-# # 06
-# email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
-# print(email_informations)
+# # 06 - ok
+email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
+print(email_informations)
 # email_informations['photo'].show()
