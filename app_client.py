@@ -1,5 +1,6 @@
 import Pyro4
 import json
+from typing import Dict, List
 # j = {'alfbeto': ['a', 'b'], 'numeros': '1'}
 # print(json.dumps(j), type(json.dumps(j)))
 
@@ -36,7 +37,7 @@ print(server.hello(message))
 # obj = server.call_profile_objects()
 # print(obj.email)
 
-# 01 - ok
+# # 01 - ok
 # profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
 # print(profiles_engcomp)
 
@@ -45,9 +46,17 @@ print(server.hello(message))
 # print(skills_ananindeua)
 
 # # 03
-# print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
-# db_li_profiles[0].experiences.append('Engenharia de software')
-# print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
+bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
+	email='bruno@email.com')
+print('Bruno experiences before add experience: {}'.format(bruno_experiences))
+
+server.put_new_experience_in_a_profile(\
+	email='bruno@email.com', \
+	experience='Engenharia de Software')
+
+bruno_experiences: List[str] = server.list_experiences_from_email_profile(\
+	email='bruno@email.com')
+print('Bruno experiences after add experience: {}'.format(bruno_experiences))
 
 # # 04 - ok
 # print('Getting experiences from profile which owns to {}'.format("cassio@email.com"))
