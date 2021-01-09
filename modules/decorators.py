@@ -1,41 +1,53 @@
 from typing import Callable, Any
 from time import time, sleep
 
-def calc_time(function: Callable) -> float:
-	"""
-	Decoration function: calculates the tima a function
-	takes to execute
 
-	Will used to check the time took from each operation,
-	from 01 to 06 ones
+def calc_time(debug: bool = True) -> float:
+	"""
+	Decorator Factory Design Pattern
+	Used to receive the argument debug
 	"""
 
-	def wrap(*args, **kwargs) -> Any:
+	def decorator(function: Callable) -> Callable:
 		"""
-		wraps/envolves the operation function,
-		calculating the time it takes to execute
+		Decoration function: calculates the tima a function
+		takes to execute
+
+		Will used to check the time took from each operation,
+		from 01 to 06 ones
 		"""
 
-		start_time = time()	
-		result = function()
-		end_time = time()
+		def wrapper(*args, **kwargs) -> Any:
+			"""
+			wraps/envolves the operation function,
+			calculating the time it takes to execute
+			"""
 
-		exec_time = end_time - start_time
-		print(f'time that the operation takes to execute: \n \
-			>>>{exec_time}')
-		return result
+			start_time = time()	
+			result = function(*args, **kwargs)
+			end_time = time()
 
-	return wrap
+			exec_time = end_time - start_time
+			if debug == True:
+				print(f'time that the operation takes to execute: \n \
+					>>>{exec_time}')
+			return result
+
+		return wrapper
+
+	return decorator
 
 
 # -------------------------------------
 # testing
 
-@calc_time # test with and without this
+@calc_time(debug=False) # test with and without this
 def operation() -> None:
-	sleep(3)
-	return 'sleep for 3 seconds'
+	sleep_time = 3
+	sleep(sleep_time)
+	return f'sleep for {sleep_time} seconds'
 
 if __name__ == '__main__':
-	operation()
+	result = operation()
+	print(result)
 	
