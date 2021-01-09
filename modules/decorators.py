@@ -46,7 +46,7 @@ def calc_time(debug: bool = True) -> float:
 	# return decorator(function)
 	return decorator
 
-def calc_plot(function: Callable):	
+def calc_plot(function: Callable, debug = 'debug printed'):	
 	"""
 	Decorator Factory Design Pattern to 
 	plot a time an operation takes to
@@ -64,13 +64,8 @@ def calc_plot(function: Callable):
 	def wrapper(*args, **kwargs):
 		result: float = function(*args, **kwargs) # returns the execution time
 		print(result)
+		print(debug)
 		return 'ploted'
-		# pass
-		# return exec_time
-		# function(args, kwargs)
-		# if debug == True:
-		# 	print('exec_time: ')
-		# 	print(f'graph of exec_time')
 
 	return wrapper
 # -------------------------------------
