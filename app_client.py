@@ -36,11 +36,11 @@ print(server.hello(message))
 # obj = server.call_profile_objects()
 # print(obj.email)
 
-# 01
-profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-print(profiles_engcomp)
+# 01 - ok
+# profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
+# print(profiles_engcomp)
 
-# # 02
+# # 02 - ok
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
 # print(skills_ananindeua)
 
@@ -49,15 +49,15 @@ print(profiles_engcomp)
 # db_li_profiles[0].experiences.append('Engenharia de software')
 # print('Bruno experiences: {}'.format(db_li_profiles[0].experiences)) # will not work on client
 
-# # 04
+# # 04 - ok
 # print('Getting experiences from profile which owns to {}'.format("cassio@email.com"))
 # print(server.list_experiences_from_email_profile(email='cassio@email.com'))
 
-# # 05
+# # 05 - ok
 # di_all_informations = server.list_all_informations_of_all_profiles()
 # print(di_all_informations)
 
-# # 06
+# # 06 - ok
 # email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
 # print(email_informations)
 # email_informations['photo'].show()
