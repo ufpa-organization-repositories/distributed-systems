@@ -62,9 +62,10 @@ def calc_plot(function: Callable):
 	# 	from 01 to 06 ones
 	# 	"""
 	def wrapper(*args, **kwargs):
-		result = function()
+		result: float = function(*args, **kwargs) # returns the execution time
+		print(result)
 		return 'ploted'
-		pass
+		# pass
 		# return exec_time
 		# function(args, kwargs)
 		# if debug == True:
@@ -77,12 +78,11 @@ def calc_plot(function: Callable):
 
 @calc_plot # test with and without this
 @calc_time(debug=True) # test with and without this
-def operation() -> str:
-	sleep_time = 3
+def operation(sleep_time: int = 1) -> str:	
 	sleep(sleep_time)
 	return f'sleep for {sleep_time} seconds'
 
 if __name__ == '__main__':
-	result = operation()
+	result = operation(sleep_time=2)
 	print(result)
 	
