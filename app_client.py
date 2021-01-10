@@ -21,8 +21,8 @@ print(server.hello(message))
 # operations
 
 # # 01 - ok
-profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-print(profiles_engcomp)
+# profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
+# print(profiles_engcomp)
 
 # # # 02 - ok
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
@@ -33,6 +33,7 @@ print(profiles_engcomp)
 # 	email='bruno@email.com')
 # print('Bruno experiences before add experience: {}'.format(bruno_experiences))
 
+# # here stay the operation 03
 # server.put_new_experience_in_a_profile(\
 # 	email='bruno@email.com', \
 # 	experience='Engenharia de Software')
@@ -49,9 +50,9 @@ print(profiles_engcomp)
 # di_all_informations = server.list_all_informations_of_all_profiles()
 # print(di_all_informations)
 
-# # 06 - ok
-# email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
-# print(email_informations)
+# 06 - ok
+email_informations = server.list_all_informations_of_profile_by_its_email(email="renato@email.com")
+print(email_informations)
 
 # # display photo
 # server.display_photo(email='bruno@email.com')

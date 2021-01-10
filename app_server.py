@@ -5,6 +5,7 @@ import json
 import jsonify
 from bottle import run
 from modules.decorators import calc_time, calc_plot
+import sys
 
 
 """
@@ -159,19 +160,31 @@ class Server:
 
 
 	# 06
+	@staticmethod	
 	@calc_plot
 	@calc_time
-	def list_all_informations_of_profile_by_its_email(self, email: str) -> Dict:
+	def list_all_informations_of_profile_by_its_email(email: str) -> Dict:
 		"""Get all informations of a profile by passing its email
 		:db_li_profiles: List(Profile)
 		:email: str -> The email profile
 		return: Dict -> Return the profile informations in a dictionary
 		"""
+		di: dict = {}
+
+		di_all_profiles = {}
+
+		for profile in db_li_profiles:
+			email = profile.email
+			di_all_profiles[email] = {}
+
+			for key, value in profile.__dict__.items():
+				if not key == 'email':
+					di_all_profiles[email][key] = value	
+
 		try:
-			return self.list_all_informations_of_all_profiles()[email]
-		except Exception as e:
-			print('Email {} not found:\n\n {}'.format(email, e))
-			raise e
+			return di_all_profiles[email]
+		except:
+			return 'The email is not found'
 
 
 	# display profile photo
