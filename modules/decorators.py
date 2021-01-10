@@ -96,7 +96,7 @@ def calc_plot(function: Callable):
 		plt.figure(figsize=(12, 6))
 		plt.plot(range(1, N_PLOTS + 1), li_exec_time)
 		plt.axis(xmin=0, xmax=N_PLOTS + 1)
-		plt.title(f'time per execution\nmean: {m}, delta: {h}\nP(m - delta:{m_less_h} < mean:{m} < m + delta{m_pluss_h}) = {CONFIDENCE}')
+		plt.title(f'time per execution\nmean: {m}, delta: {h}\nP(m - delta:{m_less_h:.10f} < mean:{m:.10f} < m + delta:{m_pluss_h:.10f}) = {CONFIDENCE}')
 		plt.ylabel('time (s)')
 		plt.xlabel('executions')
 
