@@ -1,6 +1,7 @@
 import Pyro4
 import json
-from typing import Dict, List
+from typing import Dict, List, Any
+from modules.decorators import calc_time, calc_plot
 # j = {'alfbeto': ['a', 'b'], 'numeros': '1'}
 # print(json.dumps(j), type(json.dumps(j)))
 
@@ -27,19 +28,41 @@ END
 REGISTERING PROFILE OBJECT
 """
 
+# class Client(object):	
+# 	"""Decorate server operations
+# 	with @calc_time and @calc_plot
+# 	to plot the time that each one
+# 	of the operations takes to
+# 	execute
+# 	"""		
+
+# 	@calc_plot
+# 	@calc_time(debug=True)
+# 	def hello(self, msg: str) -> str:
+# 		return server.hello(msg)
+
+	# @calc_plot
+	# @calc_time(debug=True)
+	# def list_profiles_of_a_course(*args, **kwargs) -> Any:
+	# 	server.list_profiles_of_a_course(args, kwargs)
+
+	# @calc_plot
+	# @calc_time(debug=True)
+	# def list_profiles_of_a_course(*args, **kwargs) -> str:
+	# 	return server.list_profiles_of_a_course(args, kwargs)
+
+# USING SERVER OBJECT
+
+
 # remote object calss
-print(server.hello(message))
+# print(server.hello(message))
 # print(p1.email)
 
 # operations
 
-# # call profile objects by using server object
-# obj = server.call_profile_objects()
-# print(obj.email)
-
 # # 01 - ok
-# profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-# print(profiles_engcomp)
+profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
+print(profiles_engcomp)
 
 # # 02 - ok
 # skills_ananindeua = server.list_skills_of_profiles_of_a_city(address="Ananindeua")
@@ -72,3 +95,21 @@ print(server.hello(message))
 
 # display photo
 server.display_photo(email='bruno@email.com')
+
+
+# USING CLIENT OBJECT
+
+# # Creating the client object
+# client = Client()
+
+# # Hello - ok
+# message = input("What is your message? ").strip()
+# client.hello(msg=message)
+
+# 01
+# @calc_plot
+# @calc_time	
+# def o1(course):
+# 	server.list_profiles_of_a_course(course)
+
+# o1(course='Engenharia da Computação')

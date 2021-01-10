@@ -224,13 +224,13 @@ def start_server():
     daemon.requestLoop()    
 
 
-# if __name__ == '__main__':
-# 	start_server()
+if __name__ == '__main__':
+	start_server()
 
 # -------------------------------------------------
 
 # # testing (client code)
-server = Server() # don't do this in client
+# server = Server() # don't do this in client
 
 # 01 - ok
 profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')

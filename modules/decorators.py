@@ -4,9 +4,9 @@ import PyQt5
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib import pyplot as plt
-from matplotlib.font_manager import FontProperties
+# from matplotlib.font_manager import FontProperties
 
-DEBUG: bool = True
+DEBUG: bool = False # DEBUGs don't work at client side. ValueError: signal only works in main thread
 
 
 def calc_time(function: Callable):
@@ -101,11 +101,12 @@ def calc_plot(function: Callable):
 
 		plt.legend(bbox_to_anchor=(1, 1), loc='best', fancybox=True, framealpha=1)
 
-		print('ploting')
-		plt.show()
-		# plt.savefig('time_operation.png')
-		
-		# return plt
+		if DEBUG == True:
+			print('ploting')
+			plt.show()
+		else:
+			plt.savefig('time_operation.png')
+				
 		return result
 
 	return wrapper
