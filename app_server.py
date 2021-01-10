@@ -47,18 +47,15 @@ class Server:
 	Tips: to debug this class, run the client code at this module
 	(app_server.py), 'cause here we have more details than just
 	the line of client code which raises an error
-	"""	
-	# db_li_profiles: List[Profile] = db_li_profiles
-
+	"""		
 
 	def __init__(self): pass		
 	
 	@staticmethod
-	@calc_plot
-	@calc_time
 	def hello(msg: str) -> str:		
 		print('client message: {}'.format(msg))
 		return 'Message processed sucessfully by the server application'
+
 
 	# 01 - ok	
 	@staticmethod
@@ -78,31 +75,13 @@ class Server:
 				So, i remove the p1, p2 and p3 from deamon and not register too
 				I just share the server object
 				"""
-		
-		# return str(db_li_profiles_of_a_course).encode(encoding='utf-8', errors='strict')
-		# return jsom.dumps(di_profiles_of_a_course.__dict__) # working, but [CLIENT] TypeError: Object of type bytes is not JSON serializable
-		# return jsonify(db_li_profiles_of_a_course) # TypeError: Object of type Daemon is not JSON serializable
-
-		# return "['p1', 'p2']" # FALSE
-		# return "profiles of a course" # TRUE
-
-		# TRUE
-		# string = 'profiles'
-		# return f"[{string}]"
-
-		# TRUE
-		# profs = {'a': '0'}
-		# print(profs)
-		# print(type(profs))
-		# return profs
-
-		# print(di_profiles_of_a_course)
-		# print(type(di_profiles_of_a_course))
 		return di_profiles_of_a_course
 
 
-	# 02 - ok
+	# 02
 	@staticmethod
+	@calc_plot
+	@calc_time
 	def list_skills_of_profiles_of_a_city(address: str) -> list:
 		"""
 		List the skills of the profiles of a specific city
@@ -120,8 +99,11 @@ class Server:
 
 		return li_skills_of_profiles_of_a_address
 
+
 	# 03
 	@staticmethod
+	@calc_plot
+	@calc_time
 	def put_new_experience_in_a_profile(email: str, experience: str) -> None:
 		"""
 		Addding a new experience in a registrated profile
@@ -134,8 +116,10 @@ class Server:
 				db_li_profiles[i].experiences.append(experience)
 
 
-	# 04 - ok
+	# 04
 	@staticmethod
+	@calc_plot
+	@calc_time
 	def list_experiences_from_email_profile(email: str):
 		"""
 		Get experiences from an email profile of registered profiles		
@@ -151,8 +135,11 @@ class Server:
 				if profile.email == email:
 					return profile.experiences
 
-	# 05 - ok
+
+	# 05
 	@staticmethod
+	@calc_plot
+	@calc_time
 	def list_all_informations_of_all_profiles() -> Dict:
 		"""Get all informations of all profiles
 		:db_li_profiles: List[Profiles]
@@ -170,7 +157,10 @@ class Server:
 
 		return di_all_profiles
 
-	# 06 - ok
+
+	# 06
+	@calc_plot
+	@calc_time
 	def list_all_informations_of_profile_by_its_email(self, email: str) -> Dict:
 		"""Get all informations of a profile by passing its email
 		:db_li_profiles: List(Profile)
@@ -183,9 +173,14 @@ class Server:
 			print('Email {} not found:\n\n {}'.format(email, e))
 			raise e
 
+
 	# display profile photo
 	@classmethod
 	def display_photo(cls, email):
+		"""
+		Display the photo of the profile by its email
+		return: None -> Only displays the profile photo
+		"""
 		for i, profile in enumerate(db_li_profiles):
 			if profile.email == email:
 				profile.display_photo()
@@ -210,15 +205,7 @@ def start_server():
     ns.register("server", uri)   
     
     # print the uri so we can use it in the client later
-    print("Ready. Object uri =", uri)
-    
-    # # creating uri for each profile objects
-    # uri_1, uri_2, uri_3 = daemon.register(p1), daemon.register(p2), daemon.register(p3)
-
-    # # resgistering each uri profile object (IT CAN BE DISCARTED)
-    # ns.register("p1", uri_1)
-    # ns.register("p2", uri_2)
-    # ns.register("p3", uri_3)
+    print("Ready. Object uri =", uri)    
 
     # start the event loop of the server to wait for calls
     daemon.requestLoop()    
@@ -233,8 +220,8 @@ if __name__ == '__main__':
 # server = Server() # don't do this in client
 
 # 01 - ok
-profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
-print(profiles_engcomp['bruno@email.com']['first_name'])
+# profiles_engcomp = server.list_profiles_of_a_course(course='Engenharia da Computação')
+# print(profiles_engcomp['bruno@email.com']['first_name'])
 # for profile_key in profiles_engcomp:
 # 	print(profile_key)
 # 	print(profiles_engcomp[profile_key], '\n')

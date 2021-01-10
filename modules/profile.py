@@ -71,4 +71,3 @@ class Profile():
 		image_bytes: bytes = self.deserialize_image(image_str=self.photo)
 		with Image.open(io.BytesIO(image_bytes)) as image_pillow_client:
 			image_pillow_client.show()
-# p1 = Profile(first_name='Bruno', last_name='Conde Costa da Silva', photo='bruno.png', address='Ananindeua', email='bruno@email.com', academic_education='Engenharia da Computação', skills=['Python'], experiences=['Ciencia de dados', 'Desenvolvimento Web'])

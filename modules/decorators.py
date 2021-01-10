@@ -4,24 +4,34 @@ import PyQt5
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib import pyplot as plt
-# from matplotlib.font_manager import FontProperties
+from matplotlib.font_manager import FontProperties
+
+import numpy as np
+import scipy.stats
+
+CONFIDENCE = 0.95
+
+def mean_confidence_interval(data, confidence: float = 0.95):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
+    return m, h, m-h, m+h
 
 DEBUG: bool = False # DEBUGs don't work at client side. ValueError: signal only works in main thread
+N_PLOTS: int = 20
 
+# img_count: int = None
+img_count = 0 # Only use this line to storage all plots at once
 
 def calc_time(function: Callable):
 	"""
-	Decorator Factory Design Pattern
-	Used to receive the argument debug
-	"""
-	
-		# """
-		# Decoration function: calculates the tima a function
-		# takes to execute
+	# Decoration function: calculates the tima a function
+	# takes to execute
 
-		# Will be used to check the time took from each operation,
-		# from 01 to 06 ones
-		# """
+	# Will be used to check the time took from each operation,
+	# from 01 to 06 ones
+	"""
 
 	def wrapper(*args, **kwargs) -> Any:
 		"""
@@ -58,7 +68,7 @@ def calc_plot(function: Callable):
 	from 01 to 06 ones
 	"""
 
-	def wrapper(*args, **kwargs) -> Any:
+	def wrapper(*args, **kwargs) -> Any:		
 		"""
 		wraps/envolves the ...
 
@@ -72,23 +82,25 @@ def calc_plot(function: Callable):
 		function, the result of the @calc_time decorator,
 		or other anything return type defined in this wrapper
 		(in this case, None, beacuse only displays the graph) 
-		"""
-		n_plots: int = 20
+		"""		
 		li_exec_time: list = []		
-		for i in range(n_plots):
+		for i in range(N_PLOTS):
 			results: List = function(*args, **kwargs) # returns the execution time
 			result: Any = results[0]
 			exec_time: float = results[1]
 			li_exec_time.append(exec_time)
 
+		m, h, m_less_h, m_pluss_h = mean_confidence_interval(data=li_exec_time,\
+		 confidence=CONFIDENCE)		
+
 		plt.figure(figsize=(12, 6))
-		plt.plot(range(1, n_plots + 1), li_exec_time)
-		plt.axis(xmin=0, xmax=n_plots + 1)
-		plt.title('time per execution')
+		plt.plot(range(1, N_PLOTS + 1), li_exec_time)
+		plt.axis(xmin=0, xmax=N_PLOTS + 1)
+		plt.title(f'time per execution\nmean: {m}, delta: {h}\nP(m - delta:{m_less_h} < mean:{m} < m + delta{m_pluss_h}) = {CONFIDENCE}')
 		plt.ylabel('time (s)')
 		plt.xlabel('executions')
 
-		plt.scatter(range(1, n_plots + 1), li_exec_time, marker='.',\
+		plt.scatter(range(1, N_PLOTS + 1), li_exec_time, marker='.',\
 		 label="Execution", color="black")
 
 		plt.scatter(1 + li_exec_time.index(min(li_exec_time)),\
@@ -104,8 +116,11 @@ def calc_plot(function: Callable):
 		if DEBUG == True:
 			print('ploting')
 			plt.show()
+			plt.close()
 		else:
+			print('saving')
 			plt.savefig('time_operation.png')
+			plt.close()
 				
 		return result
 
