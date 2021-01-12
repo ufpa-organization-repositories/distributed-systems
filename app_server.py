@@ -174,7 +174,7 @@ class Server:
 
 		for profile in db_li_profiles:
 			if profile.email == email:
-				print(f'email founded: {profile.email}')		
+				# print(f'email founded: {profile.email}')		
 				di_all_profiles[email] = {}
 
 				for key, value in profile.__dict__.items():
