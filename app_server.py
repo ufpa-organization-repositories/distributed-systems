@@ -23,7 +23,6 @@ p1 = Profile(first_name='Bruno', last_name='Conde Costa da Silva', \
 	academic_education='Engenharia da Computação', skills=['Python'], \
 	experiences=['Ciencia de dados', 'Desenvolvimento Web'])
 
-# p1.photo.show()
 p2 = Profile(first_name='Renato', last_name='Sousa da Silva', \
 	photo='renato.png', address='Ananindeua', email='renato@email.com', \
 	academic_education='Engenharia da Computação', skills=['Cobol'], \
@@ -174,12 +173,13 @@ class Server:
 		di_all_profiles = {}
 
 		for profile in db_li_profiles:
-			email = profile.email
-			di_all_profiles[email] = {}
+			if profile.email == email:
+				print(f'email founded: {profile.email}')		
+				di_all_profiles[email] = {}
 
-			for key, value in profile.__dict__.items():
-				if not key == 'email':
-					di_all_profiles[email][key] = value	
+				for key, value in profile.__dict__.items():
+					if not key == email:
+						di_all_profiles[email][key] = value	
 
 		try:
 			return di_all_profiles[email]
@@ -189,7 +189,7 @@ class Server:
 
 	# display profile photo
 	@classmethod
-	def display_photo(cls, email):
+	def display_photo(cls, email: str) -> None:
 		"""
 		Display the photo of the profile by its email
 		return: None -> Only displays the profile photo
